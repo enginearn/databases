@@ -734,4 +734,248 @@ switched to db movieData
 movieData> db.dropDatabase()
 { ok: 1, dropped: 'movieData' }
 movieData> show dbs
+```
 
+- top 10 shows with the highest rating
+
+```
+db.movieData.find({}, { "name": 1, "url": 1, "rating.average": 1, "_id": 0 }).sort({ "rating.average": -1 }).limit(10)
+```
+
+- top 10 shows with the latest premiered date
+
+``` mongoshell
+movies> db.movieData.find({}, { "name": 1, "url": 1, "premiered": 1, "_id": 0 }).sort({ "premiered": -1 }).limit(10)
+[
+  {
+    url: 'http://www.tvmaze.com/shows/159/state-of-affairs',
+    name: 'State of Affairs',
+    premiered: '2014-11-17'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/136/the-mccarthys',
+    name: 'The McCarthys',
+    premiered: '2014-10-30'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/241/benched',
+    name: 'Benched',
+    premiered: '2014-10-28'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/15/constantine',
+    name: 'Constantine',
+    premiered: '2014-10-24'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/242/the-great-fire',
+    name: 'The Great Fire',
+    premiered: '2014-10-16'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/129/marry-me',
+    name: 'Marry Me',
+    premiered: '2014-10-14'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/128/jane-the-virgin',
+    name: 'Jane the Virgin',
+    premiered: '2014-10-13'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/127/the-affair',
+    name: 'The Affair',
+    premiered: '2014-10-12'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/137/cristela',
+    name: 'Cristela',
+    premiered: '2014-10-10'
+  },
+  {
+    url: 'http://www.tvmaze.com/shows/214/kingdom',
+    name: 'Kingdom',
+    premiered: '2014-10-08'
+  }
+]
+movies>
+```
+
+``` mongoshell
+movies> db.movieData.find({$or: [{"rating.average": {$lt: 5}}, {"rating.average": {$gt: 9.3}}]}).limit(10)
+[
+  {
+    _id: ObjectId("64f4213f3e2ad75079a2a721"),
+    id: 71,
+    url: 'http://www.tvmaze.com/shows/71/dancing-with-the-stars',
+    name: 'Dancing with the Stars',
+    type: 'Reality',
+    language: 'English',
+    genres: [ 'Music' ],
+    status: 'Running',
+    runtime: 120,
+    premiered: '2005-06-01',
+    officialSite: 'http://abc.go.com/shows/dancing-with-the-stars',
+    schedule: { time: '20:00', days: [ 'Monday' ] },
+    rating: { average: 4.7 },
+    weight: 84,
+    network: {
+      id: 3,
+      name: 'ABC',
+      country: {
+        name: 'United States',
+        code: 'US',
+        timezone: 'America/New_York'
+      }
+    },
+    webChannel: null,
+    externals: { tvrage: 3220, thetvdb: 79590, imdb: 'tt0463398' },
+    image: {
+      medium: 'http://static.tvmaze.com/uploads/images/medium_portrait/0/501.jpg',
+      original: 'http://static.tvmaze.com/uploads/images/original_untouched/0/501.jpg'
+    },
+    summary: '<p><b>Dancing with the Stars</b> is an american dance competition show and especially the american version of the british show <i>Strictly Come Dancing</i>.</p>',
+    updated: 1532455112,
+    _links: {
+      self: { href: 'http://api.tvmaze.com/shows/71' },
+      previousepisode: { href: 'http://api.tvmaze.com/episodes/1446662' },
+      nextepisode: { href: 'http://api.tvmaze.com/episodes/1501076' }
+    }
+  },
+  {
+    _id: ObjectId("64f4213f3e2ad75079a2a728"),
+    id: 82,
+    url: 'http://www.tvmaze.com/shows/82/game-of-thrones',
+    name: 'Game of Thrones',
+    type: 'Scripted',
+    language: 'English',
+    genres: [ 'Drama', 'Adventure', 'Fantasy' ],
+    status: 'Running',
+    runtime: 60,
+    premiered: '2011-04-17',
+    officialSite: 'http://www.hbo.com/game-of-thrones',
+    schedule: { time: '21:00', days: [ 'Sunday' ] },
+    rating: { average: 9.4 },
+    weight: 99,
+    network: {
+      id: 8,
+      name: 'HBO',
+      country: {
+        name: 'United States',
+        code: 'US',
+        timezone: 'America/New_York'
+      }
+    },
+    webChannel: {
+      id: 22,
+      name: 'HBO Go',
+      country: {
+        name: 'United States',
+        code: 'US',
+        timezone: 'America/New_York'
+      }
+    },
+    externals: { tvrage: 24493, thetvdb: 121361, imdb: 'tt0944947' },
+    image: {
+      medium: 'http://static.tvmaze.com/uploads/images/medium_portrait/143/359013.jpg',
+      original: 'http://static.tvmaze.com/uploads/images/original_untouched/143/359013.jpg'
+    },
+    summary: '<p>Based on the bestselling book series <i>A Song of Ice and Fire</i> by George R.R. Martin, this sprawling new HBO drama is set in a world where summers span decades and winters can last a lifetime. From the scheming south and the savage eastern lands, to the frozen north and ancient Wall that protects the realm from the mysterious darkness beyond, the powerful families of the Seven Kingdoms are locked in a battle for the Iron Throne. This is a story of duplicity and treachery, nobility and honor, conquest and triumph. In the <b>Game of Thrones</b>, you either win or you die.</p>',
+    updated: 1532947493,
+    _links: {
+      self: { href: 'http://api.tvmaze.com/shows/82' },
+      previousepisode: { href: 'http://api.tvmaze.com/episodes/1221415' }
+    }
+  },
+  {
+    _id: ObjectId("64f4213f3e2ad75079a2a790"),
+    id: 193,
+    url: 'http://www.tvmaze.com/shows/193/dads',
+    name: 'Dads',
+    type: 'Scripted',
+    language: 'English',
+    genres: [ 'Comedy' ],
+    status: 'Ended',
+    runtime: 30,
+    premiered: '2013-09-17',
+    officialSite: null,
+    schedule: { time: '20:00', days: [ 'Tuesday' ] },
+    rating: { average: 4.4 },
+    weight: 55,
+    network: {
+      id: 4,
+      name: 'FOX',
+      country: {
+        name: 'United States',
+        code: 'US',
+        timezone: 'America/New_York'
+      }
+    },
+    webChannel: null,
+    externals: { tvrage: 34573, thetvdb: 269589, imdb: 'tt2647548' },
+    image: {
+      medium: 'http://static.tvmaze.com/uploads/images/medium_portrait/1/2831.jpg',
+      original: 'http://static.tvmaze.com/uploads/images/original_untouched/1/2831.jpg'
+    },
+    summary: "<p>Honor thy father. Way easier said than done. Especially when your dad's broke, living in your house and ruining your life. <b>Dads</b> explores the often treacherous terrain of the father-son landscape. This series follows two successful guys - and childhood best friends - now in their mid-30s whose relatively stable lives get turned upside down when their pain-in-the-neck patriarchs move in.</p>",
+    updated: 1533638929,
+    _links: {
+      self: { href: 'http://api.tvmaze.com/shows/193' },
+      previousepisode: { href: 'http://api.tvmaze.com/episodes/13177' }
+    }
+  },
+  {
+    _id: ObjectId("64f4213f3e2ad75079a2a7a8"),
+    id: 216,
+    url: 'http://www.tvmaze.com/shows/216/rick-and-morty',
+    name: 'Rick and Morty',
+    type: 'Animation',
+    language: 'English',
+    genres: [ 'Comedy', 'Adventure', 'Science-Fiction' ],
+    status: 'Running',
+    runtime: 30,
+    premiered: '2013-12-02',
+    officialSite: 'http://www.adultswim.com/videos/rick-and-morty',
+    schedule: { time: '23:30', days: [ 'Sunday' ] },
+    rating: { average: 9.4 },
+    weight: 92,
+    network: {
+      id: 10,
+      name: 'Adult Swim',
+      country: {
+        name: 'United States',
+        code: 'US',
+        timezone: 'America/New_York'
+      }
+    },
+    webChannel: null,
+    externals: { tvrage: 33381, thetvdb: 275274, imdb: 'tt2861424' },
+    image: {
+      medium: 'http://static.tvmaze.com/uploads/images/medium_portrait/1/3603.jpg',
+      original: 'http://static.tvmaze.com/uploads/images/original_untouched/1/3603.jpg'
+    },
+    summary: '<p>Rick is a mentally gifted, but sociopathic and alcoholic scientist and a grandfather to Morty; an awkward, impressionable, and somewhat spineless teenage boy. Rick moves into the family home of Morty, where he immediately becomes a bad influence.</p>',
+    updated: 1533638739,
+    _links: {
+      self: { href: 'http://api.tvmaze.com/shows/216' },
+      previousepisode: { href: 'http://api.tvmaze.com/episodes/1285113' }
+    }
+  }
+]
+movies>
+```
+
+``` mongoshell
+db.movieData.find({$and: [{"rating.average": {$gt: 9.3}}, {genres: "Drama"}]}).limit(10)
+```
+
+``` mongoshell
+db.movieData.find({"genres": "Anime"}, {"genres": 1, "name": 1, "rating.average": 1, "_id": 0}).sort({"rating.average": -1}).limit(10)
+```
+
+``` mongoshell
+# same results
+db.movieData.find({runtime: {$not: {$eq: 60}}}).count()
+db.movieData.find({runtime: {$ne: 60}}).count()
+70
+```
