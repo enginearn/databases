@@ -720,3 +720,18 @@ flights> db.flightData.find({"status.description": "on-time"})
   }
 ]
 ```
+
+``` PowerShell
+> mongoimport tv-shows.json -d movies -c movieData --jsonArray --drop
+2023-09-03T15:01:35.681+0900    connected to: mongodb://localhost/
+2023-09-03T15:01:35.744+0900    dropping: movies.movieData
+2023-09-03T15:01:35.869+0900    240 document(s) imported successfully. 0 document(s) failed to import.
+```
+
+``` mongoshell
+test> use movieData
+switched to db movieData
+movieData> db.dropDatabase()
+{ ok: 1, dropped: 'movieData' }
+movieData> show dbs
+
