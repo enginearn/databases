@@ -979,3 +979,11 @@ db.movieData.find({runtime: {$not: {$eq: 60}}}).count()
 db.movieData.find({runtime: {$ne: 60}}).count()
 70
 ```
+
+``` mongoshell
+db.passengers.find({age: {$exists: true, $gt: 60}})
+```
+
+``` mongoshell
+db.passengers.find({age: {$exists: true, $ne: null}}).count()
+```
