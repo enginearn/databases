@@ -987,3 +987,51 @@ db.passengers.find({age: {$exists: true, $gt: 60}})
 ``` mongoshell
 db.passengers.find({age: {$exists: true, $ne: null}}).count()
 ```
+
+``` mongoshell
+db.passengers.find({age: {$type: "number"}}).count()
+```
+
+``` mongoshell
+db.passengers.find({age: {$type: ["number", "string"]}}).count()
+```
+
+``` mongoshell
+db.movieData.find({summary: {$regex: /musical/}})
+```
+
+``` mongoshell
+db.movieData.find({summary: {$regex: /musical/}}, {name: 1, summary: 1, _id: 0})
+```
+
+``` mongoshell
+db.sales.insertMany([{volume: 100, target: 120}, {volume: 89, target: 80}, {volume: 200, target: 177}])
+```
+
+``` mongoshell
+financials> db.sales.find({$expr: {$gt: ["$volume", "$target"]}})
+[
+  { _id: ObjectId("64f9bd7bc67eb444b5ebad4f"), volume: 89, target: 80 },
+  {
+    _id: ObjectId("64f9bd7bc67eb444b5ebad50"),
+    volume: 200,
+    target: 177
+  }
+]
+financials>
+```
+
+``` mongoshell
+financials> db.sales.find({$expr: {$gt: [{$cond: {if: {$gte: ["$volume", 190]}, then: {$subtract: ["$volume", 10]}, else: "$volume" }}, "$target"]}})
+[
+  { _id: ObjectId("64f9bd7bc67eb444b5ebad4f"), volume: 89, target: 80 },
+  {
+    _id: ObjectId("64f9bd7bc67eb444b5ebad50"),
+    volume: 200,
+    target: 177
+  }
+]
+financials>
+```
+
+``` mongoshell
